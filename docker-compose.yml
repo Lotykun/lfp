@@ -18,6 +18,7 @@ services:
       dockerfile: Dockerfile-php
     environment:
       APP_ENV: dev
+      DATABASE_URL: mysql://symfony_user:symfony_password@mysql:3306/symfony_db?serverVersion=5.7
     volumes:
       - ./symfony:/var/www/symfony
     networks:
