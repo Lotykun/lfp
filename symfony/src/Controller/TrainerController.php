@@ -3,33 +3,33 @@
 namespace App\Controller;
 
 use App\Object\ApiErrorResponse;
-use App\Service\PlayerManager;
+use App\Service\TrainerManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Player;
-use App\Form\PlayerType;
+use App\Form\TrainerType;
+use App\Entity\Trainer;
 
 /**
- * Player controller.
+ * Trainer controller.
  * @Route("/api", name="api_")
  */
-class PlayerController extends AbstractFOSRestController
+class TrainerController extends AbstractFOSRestController
 {
     /**
-     * Lists all Players.
-     * @Rest\Get("/players")
+     * Lists all Trainers.
+     * @Rest\Get("/trainers")
      *
-     * @param PlayerManager $playerManager
+     * @param TrainerManager $trainerManager
      * @return Response
      */
-    public function getPlayersAction(PlayerManager $playerManager): Response
+    public function getTrainersAction(TrainerManager $trainerManager): Response
     {
         try {
-            $players = $playerManager->getRepository()->findAll();
-            return $this->handleView($this->view($players));
+            $trainer = $trainerManager->getRepository()->findAll();
+            return $this->handleView($this->view($trainer));
         } catch (\Exception $e){
             $response = new ApiErrorResponse(Response::HTTP_INTERNAL_SERVER_ERROR, 'Exception: ' . $e->getMessage());
             return $this->handleView($this->view($response, Response::HTTP_INTERNAL_SERVER_ERROR));
@@ -37,17 +37,17 @@ class PlayerController extends AbstractFOSRestController
     }
 
     /**
-     * List Player.
-     * @Rest\Get("/player/{id}")
+     * List Trainer.
+     * @Rest\Get("/trainer/{id}")
      *
-     * @param PlayerManager $playerManager
-     * @param Player $player
+     * @param TrainerManager $trainerManager
+     * @param Trainer $trainer
      * @return Response
      */
-    public function getPlayerAction(PlayerManager $playerManager, Player $player): Response
+    public function getTrainerAction(TrainerManager $trainerManager, Trainer $trainer): Response
     {
         try {
-            return $this->handleView($this->view($player));
+            return $this->handleView($this->view($trainer));
         } catch (\Exception $e){
             $response = new ApiErrorResponse(Response::HTTP_INTERNAL_SERVER_ERROR, 'Exception: ' . $e->getMessage());
             return $this->handleView($this->view($response, Response::HTTP_INTERNAL_SERVER_ERROR));
@@ -55,27 +55,27 @@ class PlayerController extends AbstractFOSRestController
     }
 
     /**
-     * Create Player.
-     * @Rest\Post("/player")
-     * @Rest\Post("/player/{id}", defaults={"id" = null})
+     * Create team.
+     * @Rest\Post("/trainer")
+     * @Rest\Post("/trainer/{id}", defaults={"id" = null})
      *
      * @param Request $request
-     * @param PlayerManager $playerManager
-     * @param Player|null $player
+     * @param TrainerManager $trainerManager
+     * @param Trainer|null $trainer
      * @return Response
      */
-    public function postPlayerAction(Request $request, PlayerManager $playerManager, Player $player = null): Response
+    public function postTrainerAction(Request $request, TrainerManager $trainerManager, Trainer $trainer = null): Response
     {
         try {
-            if (!$player){
-                $player = $playerManager->create();
+            if (!$trainer){
+                $trainer = $trainerManager->create();
             }
-            $form = $this->createForm(PlayerType::class, $player);
+            $form = $this->createForm(TrainerType::class, $trainer);
             $data = json_decode($request->getContent(), true);
             $form->submit($data);
             if ($form->isSubmitted() && $form->isValid()) {
-                $playerManager->save($player);
-                return $this->handleView($this->view($player, Response::HTTP_CREATED));
+                $trainerManager->save($trainer);
+                return $this->handleView($this->view($trainer, Response::HTTP_CREATED));
             }
         } catch (\Exception $e){
             $response = new ApiErrorResponse(Response::HTTP_INTERNAL_SERVER_ERROR, 'Exception: ' . $e->getMessage());

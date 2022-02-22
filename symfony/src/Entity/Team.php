@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\PlayerRepository;
+use App\Repository\TeamRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PlayerRepository::class)
+ * @ORM\Entity(repositoryClass=TeamRepository::class)
  * @ORM\HasLifecycleCallbacks()
  */
-class Player extends EntityBase
+class Team extends EntityBase
 {
     /**
      * @ORM\Id
@@ -24,30 +24,25 @@ class Player extends EntityBase
     private $name;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float")
      */
-    private $age;
+    private $budget;
 
     /**
-     * @return int|null
+     * @ORM\Column(type="integer", nullable=true)
      */
+    private $year;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return $this
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -55,21 +50,26 @@ class Player extends EntityBase
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getAge(): ?int
+    public function getBudget(): ?float
     {
-        return $this->age;
+        return $this->budget;
     }
 
-    /**
-     * @param int|null $age
-     * @return $this
-     */
-    public function setAge(?int $age): self
+    public function setBudget(float $budget): self
     {
-        $this->age = $age;
+        $this->budget = $budget;
+
+        return $this;
+    }
+
+    public function getYear(): ?int
+    {
+        return $this->year;
+    }
+
+    public function setYear(?int $year): self
+    {
+        $this->year = $year;
 
         return $this;
     }

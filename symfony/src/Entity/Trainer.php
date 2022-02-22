@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\PlayerRepository;
+use App\Repository\TrainerRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PlayerRepository::class)
+ * @ORM\Entity(repositoryClass=TrainerRepository::class)
  * @ORM\HasLifecycleCallbacks()
  */
-class Player extends EntityBase
+class Trainer extends EntityBase
 {
     /**
      * @ORM\Id
@@ -28,26 +28,16 @@ class Player extends EntityBase
      */
     private $age;
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return $this
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -55,18 +45,11 @@ class Player extends EntityBase
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getAge(): ?int
     {
         return $this->age;
     }
 
-    /**
-     * @param int|null $age
-     * @return $this
-     */
     public function setAge(?int $age): self
     {
         $this->age = $age;
