@@ -5,9 +5,10 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     notificationservice:
+        enable : '%env(ENABLE_NOTIFICATION)%'
         channels:
             - 'mail'
-            - 'whatsapp'
+            #- 'whatsapp' for now whatsapp channel notification is not implemented
         mail:
             from: '%env(USER_EMAIL_FROM)%'
             to: '%env(USER_EMAIL_TO)%'

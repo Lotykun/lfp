@@ -11,6 +11,7 @@ use App\Object\ApiListTeamTrainerResponse;
 use App\Service\Notification\NotificationService;
 use App\Service\PlayerManager;
 use App\Service\TeamManager;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -187,15 +188,17 @@ class TeamController extends AbstractFOSRestController
      * @Rest\Post("/team/add-player/{team}/{player}", name="team_player_create", requirements={"team":"\d+", "player":"\d+"})
      *
      * @param Request $request
+     * @param ParameterBagInterface $params
      * @param NotificationService $ns
      * @param TeamManager $teamManager
      * @param Team $team
      * @param Player $player
      * @return Response
      */
-    public function postPlayerInTeamAction(Request $request, NotificationService $ns, TeamManager $teamManager, Team $team, Player $player): Response
+    public function postPlayerInTeamAction(Request $request, ParameterBagInterface $params, NotificationService $ns, TeamManager $teamManager, Team $team, Player $player): Response
     {
         try {
+            $conf = $params->get('notificationservice');
             $data = json_decode($request->getContent(), true);
 
             $currentBudgetTeam = $teamManager->getTeamCurrentBudget($team);
@@ -206,7 +209,9 @@ class TeamController extends AbstractFOSRestController
                     $exist = $teamManager->existsPlayerInOtherTeams($player);
                     if (!$exist){
                         $contract = $teamManager->addPlayerInTeam($team, $player, $data['amount']);
-                        $ns->addPlayerToTeamNotification($team, $player);
+                        if ($conf['enable'] == 'true') {
+                            $ns->addPlayerToTeamNotification($team, $player);
+                        }
                         return $this->handleView($this->view($contract, Response::HTTP_CREATED));
                     } else {
                         $response = new ApiErrorResponse(Response::HTTP_INTERNAL_SERVER_ERROR, 'Player: ' . $player->getName() . ' has already an active contract with another team');
@@ -235,19 +240,23 @@ class TeamController extends AbstractFOSRestController
      * @Rest\Post("/team/remove-player/{team}/{player}", name="team_player_remove", requirements={"team":"\d+", "player":"\d+"})
      *
      * @param Request $request
+     * @param ParameterBagInterface $params
      * @param NotificationService $ns
      * @param TeamManager $teamManager
      * @param Team $team
      * @param Player $player
      * @return Response
      */
-    public function postPlayerOutTeamAction(Request $request, NotificationService $ns, TeamManager $teamManager, Team $team, Player $player): Response
+    public function postPlayerOutTeamAction(Request $request, ParameterBagInterface $params, NotificationService $ns, TeamManager $teamManager, Team $team, Player $player): Response
     {
         try {
+            $conf = $params->get('notificationservice');
             $exist = $teamManager->existsPlayerInTeam($team, $player);
             if ($exist){
                 $contract = $teamManager->removePlayerFromTeam($team, $player);
-                $ns->removePlayerFromTeamNotification($team, $player);
+                if ($conf['enable'] == 'true') {
+                    $ns->removePlayerFromTeamNotification($team, $player);
+                }
                 return $this->handleView($this->view($contract, Response::HTTP_OK));
             } else {
                 $response = new ApiErrorResponse(Response::HTTP_INTERNAL_SERVER_ERROR, 'Team: ' . $team->getName() . ' has not this player active, Player: ' . $player->getName());
@@ -264,15 +273,17 @@ class TeamController extends AbstractFOSRestController
      * @Rest\Post("/team/add-trainer/{team}/{trainer}", name="team_trainer_create", requirements={"team":"\d+", "trainer":"\d+"})
      *
      * @param Request $request
+     * @param ParameterBagInterface $params
      * @param NotificationService $ns
      * @param TeamManager $teamManager
      * @param Team $team
      * @param Trainer $trainer
      * @return Response
      */
-    public function postTrainerInTeamAction(Request $request, NotificationService $ns, TeamManager $teamManager, Team $team, Trainer $trainer): Response
+    public function postTrainerInTeamAction(Request $request, ParameterBagInterface $params, NotificationService $ns, TeamManager $teamManager, Team $team, Trainer $trainer): Response
     {
         try {
+            $conf = $params->get('notificationservice');
             $data = json_decode($request->getContent(), true);
 
             $currentBudgetTeam = $teamManager->getTeamCurrentBudget($team);
@@ -283,7 +294,9 @@ class TeamController extends AbstractFOSRestController
                     $exist = $teamManager->existsTrainerInTeam($team, $trainer);
                     if (!$exist){
                         $contract = $teamManager->addTrainerInTeam($team, $trainer, $data['amount']);
-                        $ns->addTrainerToTeamNotification($team, $trainer);
+                        if ($conf['enable'] == 'true') {
+                            $ns->addTrainerToTeamNotification($team, $trainer);
+                        }
                         return $this->handleView($this->view($contract, Response::HTTP_CREATED));
                     } else {
                         $response = new ApiErrorResponse(Response::HTTP_INTERNAL_SERVER_ERROR, 'Team: ' . $team->getName() . ' has already this trainer active, Trainer: ' . $trainer->getName());
@@ -312,19 +325,23 @@ class TeamController extends AbstractFOSRestController
      * @Rest\Post("/team/remove-trainer/{team}/{trainer}", name="team_trainer_remove", requirements={"team":"\d+", "trainer":"\d+"})
      *
      * @param Request $request
+     * @param ParameterBagInterface $params
      * @param NotificationService $ns
      * @param TeamManager $teamManager
      * @param Team $team
      * @param Trainer $trainer
      * @return Response
      */
-    public function postTrainerOutTeamAction(Request $request, NotificationService $ns, TeamManager $teamManager, Team $team, Trainer $trainer): Response
+    public function postTrainerOutTeamAction(Request $request, ParameterBagInterface $params, NotificationService $ns, TeamManager $teamManager, Team $team, Trainer $trainer): Response
     {
         try {
+            $conf = $params->get('notificationservice');
             $exist = $teamManager->existsTrainerInTeam($team, $trainer);
             if ($exist){
                 $contract = $teamManager->removeTrainerFromTeam($team, $trainer);
-                $ns->removeTrainerFromTeamNotification($team, $trainer);
+                if ($conf['enable'] == 'true') {
+                    $ns->removeTrainerFromTeamNotification($team, $trainer);
+                }
                 return $this->handleView($this->view($contract, Response::HTTP_OK));
             } else {
                 $response = new ApiErrorResponse(Response::HTTP_INTERNAL_SERVER_ERROR, 'Team: ' . $team->getName() . ' has not this trainer active, Trainer: ' . $trainer->getName());
