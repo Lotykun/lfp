@@ -206,7 +206,7 @@ class TeamController extends AbstractFOSRestController
                     $exist = $teamManager->existsPlayerInOtherTeams($player);
                     if (!$exist){
                         $contract = $teamManager->addPlayerInTeam($team, $player, $data['amount']);
-                        //$ns->addPlayerToTeamNotification($team, $player);
+                        $ns->addPlayerToTeamNotification($team, $player);
                         return $this->handleView($this->view($contract, Response::HTTP_CREATED));
                     } else {
                         $response = new ApiErrorResponse(Response::HTTP_INTERNAL_SERVER_ERROR, 'Player: ' . $player->getName() . ' has already an active contract with another team');
@@ -272,8 +272,6 @@ class TeamController extends AbstractFOSRestController
      */
     public function postTrainerInTeamAction(Request $request, NotificationService $ns, TeamManager $teamManager, Team $team, Trainer $trainer): Response
     {
-//        $ns->addTrainerToTeamNotification($team, $trainer);
-//        return $this->handleView($this->view('LOTY', Response::HTTP_OK));
         try {
             $data = json_decode($request->getContent(), true);
 
