@@ -5,6 +5,7 @@ namespace App\Service\Notification;
 
 use App\Entity\Team;
 use App\Entity\Trainer;
+use App\Entity\Player;
 use App\Service\Notification\Channels\Mail\MailManager;
 use App\Service\Notification\Channels\Whatsapp\WhatsAppManager;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
