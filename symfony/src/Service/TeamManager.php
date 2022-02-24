@@ -78,9 +78,35 @@ class TeamManager
         $this->em->flush();
     }
 
-    public function getTeamPlayers(Team $team)
+    /**
+     * @param Team $team
+     * @param array $params
+     * @return array
+     */
+    public function getTeamActivePlayers(Team $team, $params = array())
     {
-        return $players = $this->contractManager->getRepository()->findActivePlayersByTeam($team);
+        $players = array();
+        $contracts = $this->contractManager->getRepository()->findActivePlayersContractsByTeam($team, $params);
+        /** @var Contract $contract */
+        foreach ($contracts as $contract){
+            $players [] = $contract->getPlayer();
+        }
+        return $players;
+    }
+
+    /**
+     * @param Team $team
+     * @return Trainer|null
+     */
+    public function getTeamActiveTrainer(Team $team)
+    {
+        $trainer = null;
+        /** @var Contract $contract */
+        $contracts = $this->contractManager->getRepository()->findActiveTrainerByTeam($team);
+        foreach ($contracts as $contract){
+            $trainer = $contract->getTrainer();
+        }
+        return $trainer;
     }
 
     /**
@@ -102,10 +128,28 @@ class TeamManager
         return $amount;
     }
 
+    /**
+     * @param Team $team
+     * @param Player $player
+     * @return mixed
+     */
     public function existsPlayerInTeam(Team $team, Player $player)
     {
         $criteria = array(
             "team" => $team,
+            "player" => $player,
+            "active" => true,
+        );
+        return $this->contractManager->getRepository()->findOneBy($criteria);
+    }
+
+    /**
+     * @param Player $player
+     * @return mixed
+     */
+    public function existsPlayerInOtherTeams(Player $player)
+    {
+        $criteria = array(
             "player" => $player,
             "active" => true,
         );
@@ -156,6 +200,32 @@ class TeamManager
 
     /**
      * @param Team $team
+     * @param Player $player
+     * @return Contract
+     * @throws \Exception
+     */
+    public function removePlayerFromTeam(Team $team, Player $player)
+    {
+        $contracts = $this->contractManager->getRepository()->findBy(array('team' => $team, 'player' => $player, 'active' => true));
+        if (count($contracts) > 0){
+            if (count($contracts) > 1){
+                throw new \Exception("Player: " . $player->getName() . " has more than one active contract in Team: " . $team->getName() . ": This is irregular");
+            }else {
+                /** @var Contract $contract */
+                $contract = $contracts[0];
+                $contract->setActive(false);
+                $endDate = new \DateTime();
+                $contract->setEndDate($endDate);
+                $contract = $this->contractManager->save($contract);
+                return $contract;
+            }
+        } else {
+            throw new \Exception("Player: " . $player->getName() . " has no active contract in Team: " . $team->getName());
+        }
+    }
+
+    /**
+     * @param Team $team
      * @param Trainer $trainer
      * @return mixed
      */
@@ -163,6 +233,19 @@ class TeamManager
     {
         $criteria = array(
             "team" => $team,
+            "trainer" => $trainer,
+            "active" => true,
+        );
+        return $this->contractManager->getRepository()->findOneBy($criteria);
+    }
+
+    /**
+     * @param Trainer $trainer
+     * @return mixed
+     */
+    public function existsTrainerInOtherTeams(Trainer $trainer)
+    {
+        $criteria = array(
             "trainer" => $trainer,
             "active" => true,
         );
@@ -209,5 +292,31 @@ class TeamManager
         $contract = $this->contractManager->save($contract);
 
         return $contract;
+    }
+
+    /**
+     * @param Team $team
+     * @param Trainer $trainer
+     * @return Contract
+     * @throws \Exception
+     */
+    public function removeTrainerFromTeam(Team $team, Trainer $trainer)
+    {
+        $contracts = $this->contractManager->getRepository()->findBy(array('team' => $team, 'trainer' => $trainer, 'active' => true));
+        if (count($contracts) > 0){
+            if (count($contracts) > 1){
+                throw new \Exception("Player: " . $trainer->getName() . " has more than one active contract in Team: " . $team->getName() . ": These is irregular");
+            }else {
+                /** @var Contract $contract */
+                $contract = $contracts[0];
+                $contract->setActive(false);
+                $endDate = new \DateTime();
+                $contract->setEndDate($endDate);
+                $contract = $this->contractManager->save($contract);
+                return $contract;
+            }
+        } else {
+            throw new \Exception("Player: " . $trainer->getName() . " has no active contract in Team: " . $team->getName());
+        }
     }
 }

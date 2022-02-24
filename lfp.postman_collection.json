@@ -1,0 +1,617 @@
+{
+	"info": {
+		"_postman_id": "185351b4-a2f8-43b2-a611-86b026660b6b",
+		"name": "lfp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Equipos",
+			"item": [
+				{
+					"name": "Crear Equipo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Club Atlético de Madrid S. A. D.\",\n    \"budget\": 293800000.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://lfp.com/api/team",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Equipo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Fútbol Club Barcelona\",\n    \"budget\": 765000000.00,\n    \"year\":1899\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://lfp.com/api/team/2",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Equipos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/teams",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Equipo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/team/2",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Jugadores de Equipo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/team/players/1",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team",
+								"players",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Jugadores de Equipo Con filtro de nombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/team/players/1?name=Yannick Ferreira Carrasco",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team",
+								"players",
+								"1"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Yannick Ferreira Carrasco"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Jugadores de Equipo Con paginacion (max results 2)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/team/players/1?page=1",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team",
+								"players",
+								"1"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Entrenador de Equipo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/team/trainer/1",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team",
+								"trainer",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Plantilla de Equipo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/team/squad/1",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team",
+								"squad",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Plantilla de Equipo Con filtro de nombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/team/squad/1?name=Yannick Ferreira Carrasco",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team",
+								"squad",
+								"1"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Yannick Ferreira Carrasco"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Plantilla de Equipo Con Paginacion (Max result 2) y filtro de Nombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/team/squad/1?page=1",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team",
+								"squad",
+								"1"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Jugadores",
+			"item": [
+				{
+					"name": "Crear Jugador",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Diego Armando Maradona\",\n    \"age\": 30\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://lfp.com/api/player",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"player"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Jugador",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Fernando Torres Sanz\",\n    \"age\": 29\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://lfp.com/api/player/3",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"player",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Jugadores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/players",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Jugador",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/player/1",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"player",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Entrenadores",
+			"item": [
+				{
+					"name": "Crear Entrenador",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Diego Pablo Simeone\",\n    \"age\": 51\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://lfp.com/api/trainer",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"trainer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Entrenador",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Diego Pablo Simeone\",\n    \"age\": 50\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://lfp.com/api/trainer/1",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"trainer",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Entrenadores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/trainers",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"trainers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Entrenador",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/trainer/1",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"trainer",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Acciones",
+			"item": [
+				{
+					"name": "Dar de alta Jugador en Equipo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 40.56\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://lfp.com/api/team/add-player/2/12",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team",
+								"add-player",
+								"2",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dar de alta Entrenador en equipo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 40.56\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://lfp.com/api/team/add-trainer/1/1",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team",
+								"add-trainer",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dar de Baja Entrenador de Equipo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/team/remove-trainer/1/1",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team",
+								"remove-trainer",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dar de baja Jugador de Equipo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://lfp.com/api/team/remove-player/1/17",
+							"protocol": "http",
+							"host": [
+								"lfp",
+								"com"
+							],
+							"path": [
+								"api",
+								"team",
+								"remove-player",
+								"1",
+								"17"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

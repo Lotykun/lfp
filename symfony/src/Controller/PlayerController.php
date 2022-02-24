@@ -40,11 +40,10 @@ class PlayerController extends AbstractFOSRestController
      * List Player.
      * @Rest\Get("/player/{id}")
      *
-     * @param PlayerManager $playerManager
      * @param Player $player
      * @return Response
      */
-    public function getPlayerAction(PlayerManager $playerManager, Player $player): Response
+    public function getPlayerAction(Player $player): Response
     {
         try {
             return $this->handleView($this->view($player));
@@ -67,13 +66,22 @@ class PlayerController extends AbstractFOSRestController
     public function postPlayerAction(Request $request, PlayerManager $playerManager, Player $player = null): Response
     {
         try {
+            $mode = 'update';
             if (!$player){
                 $player = $playerManager->create();
+                $mode = 'create';
             }
             $form = $this->createForm(PlayerType::class, $player);
             $data = json_decode($request->getContent(), true);
             $form->submit($data);
             if ($form->isSubmitted() && $form->isValid()) {
+                if ($mode == 'create'){
+                    $exist = $playerManager->getRepository()->findOneby(array('name' => $player->getName()));
+                    if ($exist){
+                        $response = new ApiErrorResponse(Response::HTTP_INTERNAL_SERVER_ERROR, 'Player: ' . $player->getName() .' is already created with this name');
+                        return $this->handleView($this->view($response, Response::HTTP_BAD_REQUEST));
+                    }
+                }
                 $playerManager->save($player);
                 return $this->handleView($this->view($player, Response::HTTP_CREATED));
             }

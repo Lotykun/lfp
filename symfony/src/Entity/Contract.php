@@ -37,7 +37,7 @@ class Contract extends EntityBase
     /**
      * @var Trainer
      *
-     * @ORM\ManyToOne(targetEntity="Player", inversedBy="contracts")
+     * @ORM\ManyToOne(targetEntity="Trainer", inversedBy="contracts")
      * @ORM\JoinColumn(name="trainer_id", referencedColumnName="id", nullable=true)
      */
     private $trainer;
@@ -67,7 +67,7 @@ class Contract extends EntityBase
         return $this->id;
     }
 
-    public function getTeam(): ?int
+    public function getTeam(): ?Team
     {
         return $this->team;
     }
@@ -79,7 +79,7 @@ class Contract extends EntityBase
         return $this;
     }
 
-    public function getPlayer(): ?int
+    public function getPlayer(): ?Player
     {
         return $this->player;
     }
@@ -91,7 +91,7 @@ class Contract extends EntityBase
         return $this;
     }
 
-    public function getTrainer(): ?int
+    public function getTrainer(): ?Trainer
     {
         return $this->trainer;
     }

@@ -40,11 +40,10 @@ class TrainerController extends AbstractFOSRestController
      * List Trainer.
      * @Rest\Get("/trainer/{id}")
      *
-     * @param TrainerManager $trainerManager
      * @param Trainer $trainer
      * @return Response
      */
-    public function getTrainerAction(TrainerManager $trainerManager, Trainer $trainer): Response
+    public function getTrainerAction(Trainer $trainer): Response
     {
         try {
             return $this->handleView($this->view($trainer));
@@ -67,13 +66,22 @@ class TrainerController extends AbstractFOSRestController
     public function postTrainerAction(Request $request, TrainerManager $trainerManager, Trainer $trainer = null): Response
     {
         try {
+            $mode = 'update';
             if (!$trainer){
                 $trainer = $trainerManager->create();
+                $mode = 'create';
             }
             $form = $this->createForm(TrainerType::class, $trainer);
             $data = json_decode($request->getContent(), true);
             $form->submit($data);
             if ($form->isSubmitted() && $form->isValid()) {
+                if ($mode == 'create'){
+                    $exist = $trainerManager->getRepository()->findOneby(array('name' => $trainer->getName()));
+                    if ($exist){
+                        $response = new ApiErrorResponse(Response::HTTP_INTERNAL_SERVER_ERROR, 'Trainer: ' . $trainer->getName() .' is already created with this name');
+                        return $this->handleView($this->view($response, Response::HTTP_BAD_REQUEST));
+                    }
+                }
                 $trainerManager->save($trainer);
                 return $this->handleView($this->view($trainer, Response::HTTP_CREATED));
             }

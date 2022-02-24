@@ -20,16 +20,31 @@ class ContractRepository extends ServiceEntityRepository
         parent::__construct($registry, Contract::class);
     }
 
-    public function findActivePlayersByTeam(Team $team)
+    public function findActivePlayersContractsByTeam(Team $team, $params = array())
     {
-        return $this->createQueryBuilder('c.player')
-            ->andWhere('c.team = :val')
-            ->andWhere('c.player IS NOT NULL')
-            ->setParameter('val', $team)
-            ->orderBy('c.id', 'ASC')
-            ->getQuery()
-            ->getResult()
-            ;
+        $qb = $this->createQueryBuilder('c');
+        $qb->join('c.player', 'p');
+        $qb->andWhere('c.team = :val')->setParameter('val', $team);
+        $qb->andWhere('c.player IS NOT NULL');
+        $qb->andWhere('c.active = :active')->setParameter('active', true);
+        if (array_key_exists('name', $params) && $params['name'] !== null) {
+            $qb->andWhere('p.name = :name')->setParameter('name', $params['name']);
+        }
+        if (array_key_exists('page', $params) && $params['page'] !== null) {
+            $qb->setFirstResult(intval($params['page']) * intval($params['maxResults']));
+            $qb->setMaxResults($params['maxResults']);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findActiveTrainerByTeam(Team $team)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->andWhere('c.team = :val')->setParameter('val', $team);
+        $qb->andWhere('c.trainer IS NOT NULL');
+        $qb->andWhere('c.active = :active')->setParameter('active', true);
+        return $qb->getQuery()->getResult();
     }
 
     // /**

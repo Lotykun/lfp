@@ -4,6 +4,16 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    notificationservice:
+        channels:
+            - 'mail'
+            - 'whatsapp'
+        mail:
+            from: '%env(USER_EMAIL_FROM)%'
+            to: '%env(USER_EMAIL_TO)%'
+        whatsapp:
+            from: '%env(USER_WHATSAPP_FROM)%'
+            to: '%env(USER_WHATSAPP_TO)%'
 
 services:
     # default configuration for services in *this* file
