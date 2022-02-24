@@ -1,0 +1,7 @@
+ENABLE_NOTIFICATION='false' # set to 'true' to enable notifications
+USER_EMAIL_FROM='PRUEBA@PRUEBA.COM' # configure to use email notifiacion 'from'
+USER_EMAIL_TO='PRUEBA@PRUEBA.COM' # configure to use email notifiacion 'to'
+USER_WHATSAPP_FROM='69999999' # configure to use whatsapp notifiacion 'from'
+USER_WHATSAPP_TO='699999998' # configure to use whatsapp notifiacion 'to'
+
+MAILER_DSN=smtp://{USER}:{PASSSWORD}@{DOMINIO}:587 # configure to enable dsn email by smtp.. use another string for other protocols
