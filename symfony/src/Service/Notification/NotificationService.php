@@ -20,6 +20,12 @@ class NotificationService
     private $channels;
 
 
+    /**
+     * NotificationService constructor.
+     * @param ParameterBagInterface $params
+     * @param MailManager $mailManager
+     * @param WhatsAppManager $whatsAppManager
+     */
     public function __construct(ParameterBagInterface $params, MailManager $mailManager, WhatsAppManager $whatsAppManager)
     {
         $this->conf = $params->get('notificationservice');
@@ -49,6 +55,10 @@ class NotificationService
         $this->channels = $channels;
     }
 
+    /**
+     * @param Team $team
+     * @param Trainer $trainer
+     */
     public function addTrainerToTeamNotification(Team $team, Trainer $trainer){
         $data = array(
             'subject' => 'Entrenador Contratado!',
@@ -62,6 +72,10 @@ class NotificationService
         }
     }
 
+    /**
+     * @param Team $team
+     * @param Player $player
+     */
     public function addPlayerToTeamNotification(Team $team, Player $player){
         $data = array(
             'subject' => 'Jugador Contratado!',
@@ -75,6 +89,10 @@ class NotificationService
         }
     }
 
+    /**
+     * @param Team $team
+     * @param Trainer $trainer
+     */
     public function removeTrainerFromTeamNotification(Team $team, Trainer $trainer){
         $data = array(
             'subject' => 'Entrenador Dado de Baja!',
@@ -88,6 +106,10 @@ class NotificationService
         }
     }
 
+    /**
+     * @param Team $team
+     * @param Player $player
+     */
     public function removePlayerFromTeamNotification(Team $team, Player $player){
         $data = array(
             'subject' => 'Jugador Dado de Baja!',
@@ -100,6 +122,4 @@ class NotificationService
             $this->channels[$channel]->send($notification);
         }
     }
-
-
 }
