@@ -31,7 +31,7 @@ _Agregar Archivo .env.local y editarlo con las configuraciones necesarias_
 Especial atencion los parametros ENABLE_NOTIFICATION para activar las notificaciones MAILER_DSN para la configuracion del correo saliente 
 ```
 lfp (main)$ cp symfony/env-template symfony/.env.local
-lfp (main)$ nano .env.local
+lfp (main)$ nano symfony/.env.local
 ```
 _Instalar dependencias symfony_
 ```
@@ -59,4 +59,4 @@ _Ejecucion Requests Colección Postman_
 Importar la coleccion Postman del archivo
 ```
 lfp (main)$ lfp.postman_collection.json
-``` 
+```
